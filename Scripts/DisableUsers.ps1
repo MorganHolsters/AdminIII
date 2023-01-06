@@ -1,7 +1,7 @@
 ﻿<#
 .SYNOPSIS
   Disable accounts based on CSV file with header "Username".
-  The file path has to be "C:\path\to\" and named "Users2Disable.csv" (case sensitive)
+  The file path has to be "C:\ps\files\" and named "Users2Disable.csv" (case sensitive)
 .DESCRIPTION
   Disables an AD account. Requires RunAsAdministrator permissions to run
 .OUTPUTS
@@ -9,10 +9,10 @@
 #>
 
 # Import
-$users = Import-Csv C:\path\to\Users2Disable.csv
+Import-Module ActiveDirectory
+$users = Import-Csv C:\ps\files\Users2Disable.csv
 
 #Loop through the data in the variable and use the Get-ADUser cmdlet to retrieve the user object for each username. Then, use the Set-ADUser cmdlet to disable the user account if it is not already disabled. 
-
 foreach ($user in $users)
 {
     $username = $user.Username
@@ -27,3 +27,6 @@ foreach ($user in $users)
         Write-Output "Error: either $username was not found or it is already disabled"
     }
 }
+<#
+Note: The above script assumes that the CSV file has a column with a header named "Username". 
+#>
